@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
 
 import com.example.demo.entities.Users;
 import com.example.demo.services.UsersService;
@@ -51,6 +52,9 @@ public class UsersController {
 			}
 			else
 			{
+				Users user=service.getUser(email);
+				boolean userStatus=user.isPremium();
+				model.addAttribute("isPremium",userStatus);
 				return "customerHome";
 			}
 		}
@@ -61,20 +65,7 @@ public class UsersController {
 				
 	}
 	
-	/*
-	 * @GetMapping("/pay") public String pay(@RequestParam String email) { boolean
-	 * paymentStatus=false; //payment API if(paymentStatus == true) { Users
-	 * user=service.getUser(email); user.setPremium(true); service.updateUser(user);
-	 * 
-	 * } return "login"; }
-	 */
 	
-	@GetMapping("/logout")
-	public String logout(HttpSession session)
-	{
-		session.invalidate();
-		return "logout";
-	}
 	
 
 }
